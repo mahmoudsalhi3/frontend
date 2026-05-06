@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        nodejs 'Node24'
+        nodejs 'NodeJS 24'
     }
     environment {
         DOCKER_IMAGE = 'mahmoud3331/minolingo-frontend'
