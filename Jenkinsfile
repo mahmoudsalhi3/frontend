@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  options {
+    skipDefaultCheckout(true)
+  }
+
   tools {
     nodejs 'NodeJS 24'
   }
@@ -12,7 +16,12 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkout scm
+        checkout([
+          $class: 'GitSCM',
+          branches: scm.branches,
+          userRemoteConfigs: scm.userRemoteConfigs,
+          extensions: scm.extensions + [[$class: 'WipeWorkspace']]
+        ])
       }
     }
 
@@ -53,13 +62,15 @@ pipeline {
           runCommand('npm run build:prod')
         }
       }
+      post {
+        success {
+          archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
+        }
+      }
     }
   }
 
   post {
-    always {
-      archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
-    }
     success {
       echo 'Frontend CI completed: tests, SonarQube analysis, and production build passed.'
     }
