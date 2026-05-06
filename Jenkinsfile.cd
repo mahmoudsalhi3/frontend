@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Docker image tag to deploy')
+    }
+    environment {
+        DOCKER_IMAGE = 'mahmoud3331/minolingo-frontend'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Setup kubectl') {
+            steps {
+                sh '''
+                    if [ ! -f ./kubectl ]; then
+                        curl -LO https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl
+                        chmod +x kubectl
+                    fi
+                    ./kubectl version --client
+                '''
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh """
+                        ./kubectl apply -f k8s/
+                        ./kubectl set image deployment/minolingo-frontend minolingo-frontend=${DOCKER_IMAGE}:${params.IMAGE_TAG}
+                        ./kubectl rollout status deployment/minolingo-frontend --timeout=3m
+                    """
+                }
+            }
+        }
+        stage('Verify') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''
+                        ./kubectl get pods -l app=minolingo-frontend
+                        ./kubectl get svc minolingo-frontend
+                    '''
+                }
+            }
+        }
+    }
+}
