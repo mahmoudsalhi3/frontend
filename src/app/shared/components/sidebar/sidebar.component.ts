@@ -1,0 +1,40 @@
+import { Component } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ForumService } from '../../../user/forum/services/forum.service';
+
+@Component({
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './sidebar.component.html'
+})
+export class SidebarComponent {
+  constructor(private router: Router, private authService: AuthService, private forumService: ForumService) {}
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  onNewTopic(): void {
+    this.forumService.triggerNewTopic();
+  }
+
+  get isForumsPage(): boolean {
+    return this.router.url.startsWith('/forums');
+  }
+
+  navItems = [
+    { label: 'Ask Mino', icon: 'ai-tutor', route: '/ai-tutor' },
+    { label: 'Courses', icon: 'courses', route: '/courses' },
+    { label: 'Friends', icon: 'friends', route: '/friends' },
+    { label: 'Quiz', icon: 'quiz', route: '/quiz' },
+    { label: 'Writing', icon: 'writing', route: '/writing' },
+    { label: 'Forums', icon: 'forums', route: '/forums' },
+    { label: 'Events', icon: 'events', route: '/events' },
+    { label: 'Profile', icon: 'profile', route: '/profile' },
+    { label: 'Donations', icon: 'donations', route: '/donations' },
+    { label: 'Subscriptions', icon: 'subscriptions', route: '/subscriptions' },
+    { label: 'Billing', icon: 'billing', route: '/subscriptions/billing-history' }
+  ];
+}

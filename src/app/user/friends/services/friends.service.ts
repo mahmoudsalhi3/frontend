@@ -1,0 +1,149 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Friendship, ChatMessage, UserStatus } from '../models/friend.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FriendsService {
+  private readonly apiUrl = '/api/forums';
+
+  constructor(private http: HttpClient) {}
+
+  // ── Friendship ──
+
+  sendFriendRequest(friendship: Friendship): Observable<Friendship> {
+    return this.http.post<Friendship>(`${this.apiUrl}/send-friend-request`, friendship);
+  }
+
+  acceptFriendRequest(friendshipId: number): Observable<Friendship> {
+    return this.http.put<Friendship>(`${this.apiUrl}/accept-friend-request/${friendshipId}`, {});
+  }
+
+  rejectFriendRequest(friendshipId: number): Observable<Friendship> {
+    return this.http.put<Friendship>(`${this.apiUrl}/reject-friend-request/${friendshipId}`, {});
+  }
+
+  removeFriend(friendshipId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/remove-friend/${friendshipId}`);
+  }
+
+  getFriends(userId: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(`${this.apiUrl}/get-friends/${userId}`);
+  }
+
+  getPendingRequests(userId: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(`${this.apiUrl}/get-pending-requests/${userId}`);
+  }
+
+  getSentRequests(userId: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(`${this.apiUrl}/get-sent-requests/${userId}`);
+  }
+
+  getFriendshipStatus(userId1: number, userId2: number): Observable<Friendship> {
+    return this.http.get<Friendship>(`${this.apiUrl}/get-friendship-status/${userId1}/${userId2}`);
+  }
+
+  blockUser(friendshipId: number): Observable<Friendship> {
+    return this.http.put<Friendship>(`${this.apiUrl}/block-user/${friendshipId}`, {});
+  }
+
+  // ── Chat Messages ──
+
+  sendMessage(message: ChatMessage): Observable<ChatMessage> {
+    return this.http.post<ChatMessage>(`${this.apiUrl}/send-message`, message);
+  }
+
+  getConversation(userId1: number, userId2: number): Observable<ChatMessage[]> {
+    return this.http.get<ChatMessage[]>(`${this.apiUrl}/get-conversation/${userId1}/${userId2}`);
+  }
+
+  getUnreadMessages(userId: number): Observable<ChatMessage[]> {
+    return this.http.get<ChatMessage[]>(`${this.apiUrl}/get-unread-messages/${userId}`);
+  }
+
+  getUnreadMessageCount(senderId: number, receiverId: number): Observable<{ count: number }> {
+    return this.http.get<{ count: number }>(`${this.apiUrl}/get-unread-message-count/${senderId}/${receiverId}`);
+  }
+
+  markConversationRead(senderId: number, receiverId: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/mark-conversation-read/${senderId}/${receiverId}`, {});
+  }
+
+  getLastMessage(userId1: number, userId2: number): Observable<ChatMessage> {
+    return this.http.get<ChatMessage>(`${this.apiUrl}/get-last-message/${userId1}/${userId2}`);
+  }
+
+  getAllMessages(userId: number): Observable<ChatMessage[]> {
+    return this.http.get<ChatMessage[]>(`${this.apiUrl}/get-all-messages/${userId}`);
+  }
+
+  deleteMessage(messageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete-message/${messageId}`);
+  }
+
+  deleteMessageForUser(messageId: number, userId: number): Observable<ChatMessage> {
+    return this.http.put<ChatMessage>(`${this.apiUrl}/delete-message-for-user/${messageId}/${userId}`, {});
+  }
+
+  toggleReaction(messageId: number, userId: number, emoji: string): Observable<ChatMessage> {
+    return this.http.put<ChatMessage>(`${this.apiUrl}/toggle-reaction/${messageId}/${userId}?emoji=${encodeURIComponent(emoji)}`, {});
+  }
+
+  // ── User Status ──
+
+  sendHeartbeat(status: UserStatus): Observable<UserStatus> {
+    return this.http.post<UserStatus>(`${this.apiUrl}/user-heartbeat`, status);
+  }
+
+  setOffline(userId: number): Observable<UserStatus> {
+    return this.http.put<UserStatus>(`${this.apiUrl}/user-offline/${userId}`, {});
+  }
+
+  getUserStatus(userId: number): Observable<UserStatus> {
+    return this.http.get<UserStatus>(`${this.apiUrl}/user-status/${userId}`);
+  }
+
+  getUserStatuses(userIds: number[]): Observable<UserStatus[]> {
+    return this.http.post<UserStatus[]>(`${this.apiUrl}/user-statuses`, userIds);
+  }
+
+  getOnlineUsers(): Observable<UserStatus[]> {
+    return this.http.get<UserStatus[]>(`${this.apiUrl}/online-users`);
+  }
+
+  unblockUser(friendshipId: number): Observable<Friendship> {
+    return this.http.put<Friendship>(`${this.apiUrl}/unblock-user/${friendshipId}`, {});
+  }
+
+  getBlockedUsers(userId: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(`${this.apiUrl}/get-blocked-users/${userId}`);
+  }
+
+  getMutualFriendsCount(userId1: number, userId2: number): Observable<{ count: number }> {
+    return this.http.get<{ count: number }>(`${this.apiUrl}/get-mutual-friends-count/${userId1}/${userId2}`);
+  }
+
+  // ── Typing Indicator ──
+
+  setTyping(userId: number, typingToUserId: number): Observable<UserStatus> {
+    return this.http.put<UserStatus>(`${this.apiUrl}/set-typing/${userId}/${typingToUserId}`, {});
+  }
+
+  clearTyping(userId: number): Observable<UserStatus> {
+    return this.http.put<UserStatus>(`${this.apiUrl}/clear-typing/${userId}`, {});
+  }
+
+  isTyping(typerId: number, receiverId: number): Observable<{ typing: boolean }> {
+    return this.http.get<{ typing: boolean }>(`${this.apiUrl}/is-typing/${typerId}/${receiverId}`);
+  }
+
+  // ── AI Speech Correction ──
+
+  correctText(text: string): Observable<{ originalText: string; correctedText: string; hasCorrections: boolean; explanation: string }> {
+    return this.http.post<{ originalText: string; correctedText: string; hasCorrections: boolean; explanation: string }>(
+      `${this.apiUrl}/ai/correct-text`, { text }
+    );
+  }
+}

@@ -1,0 +1,103 @@
+import { Routes } from '@angular/router';
+import { LayoutComponent } from './shared/components/layout/layout.component';
+import { authGuard, guestGuard, roleGuard } from './shared/guards/auth.guard';
+
+export const routes: Routes = [
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./user/user/pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'register',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./user/user/pages/register/register.component').then(m => m.RegisterComponent)
+  },
+  {
+    path: 'admin',
+    canActivate: [roleGuard(['ADMIN'])],
+    loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES)
+  },
+  {
+    path: 'tutor',
+    canActivate: [roleGuard(['TUTEUR'])],
+    loadChildren: () => import('./tutor/tutor.routes').then(m => m.TUTOR_ROUTES)
+  },
+  {
+    path: 'verify-code',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./user/user/pages/register/verify-code.component').then(m => m.VerifyCodeComponent)
+  },
+  {
+    path: 'face-setup',
+    canActivate: [authGuard],
+    loadComponent: () => import('./user/user/pages/face-setup/face-setup.component').then(m => m.FaceSetupComponent)
+  },
+  {
+    path: 'google-setup',
+    canActivate: [authGuard],
+    loadComponent: () => import('./user/user/pages/google-setup/google-setup.component').then(m => m.GoogleSetupComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./user/user/pages/forgetpassword/forgot-password.component')
+        .then(m => m.ForgotPasswordComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./user/user/pages/forgetpassword/reset-password.component')
+        .then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'courses', pathMatch: 'full' },
+      {
+        path: 'courses',
+        loadChildren: () => import('./user/course/course.routes').then(m => m.COURSE_ROUTES)
+      },
+      {
+        path: 'friends',
+        loadChildren: () => import('./user/friends/friends.routes').then(m => m.FRIENDS_ROUTES)
+      },
+      {
+        path: 'quiz',
+        loadChildren: () => import('./user/quiz/quiz.routes').then(m => m.QUIZ_ROUTES)
+      },
+      {
+        path: 'writing',
+        loadChildren: () => import('./user/writing/writing.routes').then(m => m.WRITING_ROUTES)
+      },
+      {
+        path: 'forums',
+        loadChildren: () => import('./user/forum/forum.routes').then(m => m.FORUM_ROUTES)
+      },
+      {
+        path: 'events',
+        loadChildren: () => import('./user/event/event.routes').then(m => m.EVENT_ROUTES)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./user/user/user.routes').then(m => m.USER_ROUTES)
+      },
+      {
+        path: 'donations',
+        loadChildren: () => import('./user/donation/donation.routes').then(m => m.DONATION_ROUTES)
+      },
+      {
+        path: 'subscriptions',
+        loadChildren: () => import('./user/subscription/subscription.routes').then(m => m.SUBSCRIPTION_ROUTES)
+      },
+      {
+        path: 'ai-tutor',
+        loadComponent: () => import('./user/ai-tutor/ai-tutor.component').then(m => m.AiTutorComponent)
+      }
+    ]
+  },
+
+  { path: '**', redirectTo: 'login' }
+];

@@ -1,0 +1,184 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { OnboardingComponent, OnboardingStep } from '../../../../shared/components/onboarding/onboarding.component';
+
+@Component({
+  selector: 'app-verify-code',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink, OnboardingComponent],
+  templateUrl: './verify-code.component.html'
+})
+export class VerifyCodeComponent implements OnInit {
+  email = '';
+  role = '';
+  code = '';
+  isLoading = false;
+  isResending = false;
+  successMessage = '';
+  errorMessage = '';
+  resendMessage = '';
+  resendCountdown = 0;
+
+  // 6 individual digit inputs
+  digits: string[] = ['', '', '', '', '', ''];
+
+  // Onboarding steps
+  verifyOnboardingSteps: OnboardingStep[] = [
+    {
+      title: 'Check Your Email! 📬',
+      description: 'We sent a 6-digit verification code to your email. Check your inbox (and spam folder)!',
+      icon: '✉️',
+      mascotMessage: 'Check inbox!',
+      highlightColor: '#a855f7'
+    },
+    {
+      title: 'Enter the Code 🔢',
+      description: 'Type the 6-digit code from your email into the boxes below. Each box is for one digit!',
+      icon: '🔐',
+      mascotMessage: 'Type it in!',
+      highlightColor: '#38a9f3'
+    },
+    {
+      title: 'Almost There! ✨',
+      description: 'Once verified, you\'ll have full access to MinoLingo. Your learning adventure awaits!',
+      icon: '🎉',
+      mascotMessage: 'So close!',
+      highlightColor: '#22c55e'
+    }
+  ];
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit(): void {
+    this.email = this.route.snapshot.queryParamMap.get('email') || '';
+    this.role = this.route.snapshot.queryParamMap.get('role') || '';
+    if (!this.email) {
+      this.router.navigate(['/register']);
+    }
+  }
+
+  onDigitInput(index: number, event: any): void {
+    const value = event.target.value.replace(/\D/g, '').slice(-1);
+    this.digits[index] = value;
+    this.errorMessage = '';
+
+    if (value && index < 5) {
+      const next = document.getElementById(`digit-${index + 1}`);
+      next?.focus();
+    }
+
+    // Auto-submit when all 6 digits filled
+    if (this.digits.every(d => d !== '')) {
+      this.onSubmit();
+    }
+  }
+
+  onDigitKeydown(index: number, event: KeyboardEvent): void {
+    if (event.key === 'Backspace' && !this.digits[index] && index > 0) {
+      const prev = document.getElementById(`digit-${index - 1}`);
+      prev?.focus();
+    }
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    const pasted = event.clipboardData?.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (pasted && pasted.length === 6) {
+      this.digits = pasted.split('');
+      event.preventDefault();
+      setTimeout(() => this.onSubmit(), 100);
+    }
+  }
+
+  get fullCode(): string {
+    return this.digits.join('');
+  }
+
+  onSubmit(): void {
+    if (this.isLoading) return; // prevent double-submit from auto-fill + manual submit
+    if (this.fullCode.length !== 6) {
+      this.errorMessage = 'Please enter the complete 6-digit code.';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.userService.verifyCode(this.email, this.fullCode).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.successMessage = 'Email verified successfully! Redirecting...';
+
+        // Store user session via AuthService (uses 'auth_user' key)
+        this.authService.setSessionFromVerification(response.user);
+        // Use role from response, or fall back to query param from registration
+        const role = response.user?.role || response.role || this.role;
+
+        setTimeout(() => {
+          // Students go to the face-setup page so they can register their face for fast future logins.
+          // Admin/Tutor go straight to their dashboards.
+          const redirectUrl = (role === 'ETUDIANT' || role === 'TUTEUR') ? '/face-setup' : this.authService.getRedirectUrlForRole(role);
+          this.router.navigate([redirectUrl]);
+        }, 2000);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        const message = typeof err === 'string' ? err : 'Invalid code. Please try again.';
+
+        // If already verified (e.g. user refreshed and resubmitted), treat as success and redirect
+        if (message.toLowerCase().includes('already verified')) {
+          this.successMessage = 'Already verified! Redirecting...';
+          setTimeout(() => {
+            const redirectUrl = (this.role === 'ETUDIANT' || this.role === 'TUTEUR') ? '/face-setup' : this.authService.getRedirectUrlForRole(this.role);
+            this.router.navigate([redirectUrl]);
+          }, 1500);
+          return;
+        }
+
+        this.digits = ['', '', '', '', '', ''];
+        document.getElementById('digit-0')?.focus();
+        this.errorMessage = message;
+      }
+    });
+  }
+
+  resendCode(): void {
+    if (this.resendCountdown > 0) return;
+
+    this.isResending = true;
+    this.resendMessage = '';
+    this.errorMessage = '';
+
+    this.userService.resendCode(this.email).subscribe({
+      next: () => {
+        this.isResending = false;
+        this.resendMessage = 'New code sent! Check your email.';
+        this.digits = ['', '', '', '', '', ''];
+        this.startCountdown();
+      },
+      error: () => {
+        this.isResending = false;
+        this.errorMessage = 'Failed to resend code. Please try again.';
+      }
+    });
+  }
+
+  startCountdown(): void {
+    this.resendCountdown = 60;
+    const interval = setInterval(() => {
+      this.resendCountdown--;
+      if (this.resendCountdown <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  }
+}

@@ -1,0 +1,441 @@
+<!-- Onboarding Overlay -->
+<app-onboarding 
+  [steps]="loginOnboardingSteps" 
+  storageKey="minolingo_login_onboarding">
+</app-onboarding>
+
+<div class="min-h-screen flex overflow-hidden login-page">
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- LEFT PANEL — Animated Branding + Mascot                        -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="hidden lg:flex lg:w-[52%] flex-col items-center justify-center relative overflow-hidden"
+       style="background: linear-gradient(135deg, #f0f9ff, #fef3f2 25%, #fefce8 50%, #ecfdf5 75%, #f0f9ff); background-attachment: fixed;">
+
+    <!-- Blurred blob decorations -->
+    <div class="absolute -top-20 -left-20 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-violet-200/30 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/3 right-10 w-48 h-48 bg-amber-200/30 rounded-full blur-2xl pointer-events-none"></div>
+
+    <!-- Floating star decorations -->
+    <div class="absolute top-16 right-24 w-8 h-8 text-yellow-400 animate-bounce" style="animation-duration: 2s;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <div class="absolute top-32 left-16 w-5 h-5 text-yellow-300 animate-pulse" style="animation-delay: 0.5s;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <div class="absolute bottom-40 left-24 w-6 h-6 text-amber-400 animate-bounce" style="animation-duration: 2.5s; animation-delay: 0.3s;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <div class="absolute bottom-28 right-20 w-5 h-5 text-yellow-400 animate-pulse" style="animation-delay: 1s;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+
+    <!-- Floating stat bubbles -->
+    <div class="absolute top-[15%] left-[8%] animate-bounce" style="animation-duration: 3s;">
+      <div class="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-2.5 shadow-lg border border-white/60">
+        <span class="text-orange-400 text-xl">🔥</span>
+        <div>
+          <p class="text-[12px] font-bold text-[#0f1419]">Day Streak</p>
+          <p class="text-[10px] text-[#536471]">Keep learning!</p>
+        </div>
+      </div>
+    </div>
+    <div class="absolute top-[55%] right-[5%] animate-bounce" style="animation-duration: 3.5s; animation-delay: 0.5s;">
+      <div class="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-2.5 shadow-lg border border-white/60">
+        <span class="text-sky-400 text-xl">💎</span>
+        <div>
+          <p class="text-[12px] font-bold text-[#0f1419]">1,200 XP</p>
+          <p class="text-[10px] text-[#536471]">Earned so far</p>
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-[18%] left-[6%] animate-bounce" style="animation-duration: 4s; animation-delay: 1s;">
+      <div class="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-2.5 shadow-lg border border-white/60">
+        <span class="text-green-500 text-xl">🏆</span>
+        <div>
+          <p class="text-[12px] font-bold text-[#0f1419]">Top Learner</p>
+          <p class="text-[10px] text-[#536471]">League #1</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Central content -->
+    <div class="flex flex-col items-center text-center px-10 relative z-10">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-10">
+        <div class="w-14 h-14 bg-gradient-to-br from-[#38a9f3] to-[#6366f1] rounded-2xl flex items-center justify-center shadow-xl shadow-blue-300/40">
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342" />
+          </svg>
+        </div>
+        <span class="text-3xl font-extrabold text-[#0f1419] tracking-tight">MinoLingo</span>
+      </div>
+
+      <!-- Mascot with floating animation -->
+      <div class="relative mb-10">
+        <div class="relative inline-block">
+          <!-- Pulse rings -->
+          <div class="absolute inset-[-16px] rounded-full border-[3px] border-[#38a9f3]/30 animate-ping" style="animation-duration: 2s;"></div>
+          <div class="absolute inset-[-8px] rounded-full border-[2px] border-[#38a9f3]/20"></div>
+          
+          <!-- Mascot container -->
+          <div class="w-56 h-56 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center shadow-2xl shadow-blue-200/50">
+            <img
+              src="/mino_images/nino.png"
+              alt="MinoLingo Mascot"
+              class="w-48 h-48 object-contain drop-shadow-xl animate-bounce"
+              style="animation-duration: 3s;"
+            />
+          </div>
+        </div>
+
+        <!-- Speech bubble -->
+        <div class="absolute -right-4 top-4 bg-white rounded-2xl px-4 py-2.5 shadow-xl border border-blue-100 animate-pulse" style="animation-duration: 2s;">
+          <p class="text-[13px] font-bold text-[#0f1419] whitespace-nowrap">Welcome back! 👋</p>
+          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-b-[8px] border-r-[10px] border-t-transparent border-b-transparent border-r-white"></div>
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-[32px] font-extrabold text-[#0f1419] leading-tight mb-3">
+        Continue Your<br/>
+        <span class="bg-gradient-to-r from-[#38a9f3] to-[#6366f1] bg-clip-text text-transparent">Learning Journey</span>
+      </h1>
+      <p class="text-[15px] text-[#536471] max-w-[340px] leading-relaxed">
+        Thousands of kids are learning English right now. Sign in and keep your streak alive!
+      </p>
+
+      <!-- Feature pills -->
+      <div class="flex items-center gap-3 mt-8 flex-wrap justify-center">
+        <div class="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 text-[12px] font-semibold text-[#374151] shadow-sm border border-white/60">
+          <svg class="w-3.5 h-3.5 text-[#38a9f3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+          Safe & Secure
+        </div>
+        <div class="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 text-[12px] font-semibold text-[#374151] shadow-sm border border-white/60">
+          <svg class="w-3.5 h-3.5 text-[#38a9f3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3" /></svg>
+          Global Community
+        </div>
+        <div class="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 text-[12px] font-semibold text-[#374151] shadow-sm border border-white/60">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Fun Learning
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel - Login Form -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-white">
+    <div class="w-full max-w-[420px]">
+
+      <!-- Mobile Logo -->
+      <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+        <div class="w-10 h-10 bg-[#38a9f3] rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347" />
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-[#38a9f3]">MinoLingo</span>
+      </div>
+
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h2 class="text-[28px] font-bold text-[#0f1419]">Sign in</h2>
+        <p class="text-[14px] text-[#536471] mt-1">Enter your credentials to continue</p>
+      </div>
+
+      <!-- Error Message (regular login errors / remaining attempts / locked) -->
+      @if (errorMessage) {
+      <div class="flex items-center gap-3 bg-white/95 backdrop-blur-md border-2 border-red-200 text-red-600 text-[14px] px-5 py-4 rounded-2xl mb-6 shadow-lg shadow-red-100/50 animate-pulse" style="animation-duration: 2s;">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-400 to-rose-500 flex items-center justify-center shrink-0 shadow-md shadow-red-200">
+          <span class="text-xl">😬</span>
+        </div>
+        <span class="font-bold">{{ errorMessage }}</span>
+      </div>
+      }
+
+      <!-- Banned Account Message -->
+      @if (banInfo) {
+      <div class="bg-gradient-to-r from-red-50 via-white to-orange-50 backdrop-blur-md border-2 border-red-300 text-red-700 text-[14px] px-5 py-5 rounded-3xl mb-6 shadow-xl shadow-red-100/60 relative overflow-hidden">
+        <!-- Decorative corner -->
+        <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-200/30 rounded-full blur-xl pointer-events-none"></div>
+        
+        <div class="flex items-center gap-3 mb-3 relative">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center shrink-0 shadow-lg shadow-red-300">
+            <span class="text-2xl">🚫</span>
+          </div>
+          <span class="font-black text-[16px] text-red-700">Account Banned</span>
+        </div>
+        
+        @if (banInfo.banReason) {
+        <div class="ml-14 mb-2 flex items-center gap-2">
+          <span class="text-sm">📋</span>
+          <p class="text-[13px]"><span class="font-bold text-red-600">Reason:</span> {{ banInfo.banReason }}</p>
+        </div>
+        }
+        
+        @if (banInfo.permanent) {
+        <div class="ml-14 flex items-center gap-2 bg-red-100 rounded-xl px-3 py-2 border border-red-200">
+          <span class="text-sm">⛔</span>
+          <p class="text-[13px] text-red-700 font-bold">Your account has been permanently banned.</p>
+        </div>
+        } @else if (formattedBanExpiry) {
+        <div class="ml-14 flex items-center gap-2 bg-amber-50 rounded-xl px-3 py-2 border border-amber-200">
+          <span class="text-sm">⏰</span>
+          <p class="text-[13px] text-amber-700">Unbanned on: <span class="font-black">{{ formattedBanExpiry }}</span></p>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Success Message -->
+      @if (successMessage) {
+      <div class="flex items-center gap-3 bg-white/95 backdrop-blur-md border-2 border-green-200 text-green-600 text-[14px] px-5 py-4 rounded-2xl mb-6 shadow-lg shadow-green-100/50">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shrink-0 shadow-md shadow-green-200 animate-bounce" style="animation-duration: 1s;">
+          <span class="text-xl">🎉</span>
+        </div>
+        <span class="font-bold">{{ successMessage }}</span>
+      </div>
+      }
+
+      <!-- Login Form -->
+      <form (ngSubmit)="onSubmit()" novalidate>
+        <!-- Email -->
+        <div class="mb-5">
+          <label for="email" class="block text-[14px] font-medium text-[#0f1419] mb-1.5">Email address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-[#9ca3af]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <input id="email" type="email" [(ngModel)]="email" name="email" (blur)="emailTouched = true"
+              placeholder="you@example.com"
+              class="w-full pl-11 pr-4 py-3 bg-white border border-[#d1d9e0] rounded-xl text-[15px] text-[#0f1419] placeholder-[#9ca3af] outline-none transition-all duration-200 focus:border-[#38a9f3] focus:ring-2 focus:ring-[#38a9f3]/20"
+              [class.border-red-400]="emailError" />
+          </div>
+          @if (emailError) {
+          <p class="text-[12px] text-red-500 mt-1.5 ml-1">{{ emailError }}</p>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="mb-5">
+          <label for="password" class="block text-[14px] font-medium text-[#0f1419] mb-1.5">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-[#9ca3af]" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <input id="password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password"
+              (blur)="passwordTouched = true" placeholder="Enter your password"
+              class="w-full pl-11 pr-12 py-3 bg-white border border-[#d1d9e0] rounded-xl text-[15px] text-[#0f1419] placeholder-[#9ca3af] outline-none transition-all duration-200 focus:border-[#38a9f3] focus:ring-2 focus:ring-[#38a9f3]/20"
+              [class.border-red-400]="passwordError" />
+            <button type="button" (click)="togglePassword()"
+              class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#9ca3af] hover:text-[#536471] transition-colors">
+              @if (!showPassword) {
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              } @else {
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+              }
+            </button>
+          </div>
+          @if (passwordError) {
+          <p class="text-[12px] text-red-500 mt-1.5 ml-1">{{ passwordError }}</p>
+          }
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="flex justify-end mb-6">
+          <a routerLink="/forgot-password" class="text-[13px] text-[#38a9f3] font-medium hover:underline">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- CAPTCHA — reCAPTCHA-style inline checkbox -->
+        <div class="mb-6">
+          <!-- Checkbox row -->
+          <div class="flex items-center justify-between px-4 py-3.5 bg-[#f7f9fa] border border-[#e0e5eb] rounded-xl cursor-pointer select-none transition-all duration-200"
+            [class.border-[#38a9f3]]="showCaptcha"
+            [class.bg-[#f0f9ff]]="showCaptcha"
+            [class.shadow-sm]="showCaptcha"
+            (click)="toggleCaptcha()">
+            <div class="flex items-center gap-3">
+              <!-- Custom animated checkbox -->
+              <div class="w-7 h-7 rounded-lg border-2 flex items-center justify-center transition-all duration-300"
+                [class.border-[#c4cdd5]]="!captchaResult"
+                [class.border-[#22c55e]]="captchaResult"
+                [class.bg-[#22c55e]]="captchaResult"
+                [class.scale-110]="captchaResult">
+                @if (captchaResult) {
+                  <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                }
+              </div>
+              <span class="text-[14px] font-medium text-[#374151]">I am not a robot</span>
+            </div>
+            <!-- Shield icon -->
+            <div class="flex flex-col items-center gap-0.5 opacity-60">
+              <svg class="w-6 h-6 text-[#38a9f3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+              <span class="text-[8px] font-semibold text-[#9ca3af] tracking-wide">MinoLingo</span>
+            </div>
+          </div>
+
+          <!-- Expandable captcha challenge -->
+          @if (showCaptcha && !captchaResult) {
+            <div class="mt-2 p-4 bg-white rounded-xl border border-[#e8f4fe] shadow-sm"
+              style="animation: captchaSlideDown 0.3s ease-out;">
+              <app-image-captcha #captchaRef
+                (solved)="onCaptchaSolved($event)"
+                (cleared)="onCaptchaCleared()">
+              </app-image-captcha>
+            </div>
+          }
+
+          <!-- Success state -->
+          @if (captchaResult) {
+            <div class="mt-2 flex items-center gap-2 px-4 py-2 text-[13px] text-green-600 font-medium">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Verification complete
+            </div>
+          }
+        </div>
+
+        <style>
+          @keyframes captchaSlideDown {
+            from { opacity: 0; transform: translateY(-8px); max-height: 0; }
+            to { opacity: 1; transform: translateY(0); max-height: 500px; }
+          }
+        </style>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="isLoading || !isFormValid"
+          class="w-full py-3 rounded-xl text-[15px] font-semibold transition-all duration-200 bg-[#38a9f3] hover:bg-[#2196e3] text-white disabled:bg-[#a8d8f8] disabled:cursor-not-allowed">
+          @if (isLoading) {
+          <span class="inline-flex items-center gap-2">
+            <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            Signing in...
+          </span>
+          } @else {
+          <span>Sign in</span>
+          }
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3 mt-6 mb-4">
+        <div class="flex-1 h-px bg-[#e5e7eb]"></div>
+        <span class="text-[13px] text-[#9ca3af] font-medium">or</span>
+        <div class="flex-1 h-px bg-[#e5e7eb]"></div>
+      </div>
+
+      <!-- Face Login Button -->
+      @if (!showFaceLogin) {
+      <button type="button" (click)="toggleFaceLogin()"
+        [disabled]="!email.trim()"
+        class="w-full flex items-center justify-center gap-2.5 py-3 mb-4 border border-[#d1d9e0] rounded-xl text-[14px] font-medium text-[#374151] hover:bg-[#f7f9fa] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed">
+        <svg class="w-5 h-5 text-[#38a9f3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+        Sign in with Face Recognition
+      </button>
+      }
+
+      <!-- Face Login Panel -->
+      @if (showFaceLogin) {
+      <div class="mb-4 p-4 bg-[#f7f9fa] border border-[#e0e5eb] rounded-2xl" style="animation: captchaSlideDown 0.3s ease-out;">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#38a9f3] to-[#6366f1] flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </div>
+            <span class="text-[14px] font-semibold text-[#0f1419]">Face Login</span>
+          </div>
+          <button type="button" (click)="toggleFaceLogin()" class="text-[12px] text-[#9ca3af] hover:text-[#536471] font-medium">
+            Cancel
+          </button>
+        </div>
+
+        @if (!faceCheckDone) {
+          <div class="flex items-center justify-center py-6">
+            <svg class="animate-spin w-6 h-6 text-[#38a9f3]" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="ml-2 text-[13px] text-[#536471]">Checking face registration...</span>
+          </div>
+        } @else if (!faceLoginAvailable) {
+          <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl p-3">
+            <span class="text-lg">&#9888;&#65039;</span>
+            <div>
+              <p class="text-[13px] font-semibold text-amber-700">Face not registered</p>
+              <p class="text-[11px] text-amber-600">This account doesn't have face recognition set up. Please use password login or register your face during sign-up.</p>
+            </div>
+          </div>
+        } @else {
+          <app-face-recognition
+            mode="login"
+            [userId]="0"
+            (result)="onFaceCapture($event)">
+          </app-face-recognition>
+          @if (isFaceProcessing) {
+            <div class="flex items-center justify-center py-3 mt-2">
+              <svg class="animate-spin w-5 h-5 text-[#38a9f3]" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="ml-2 text-[13px] text-[#536471] font-medium">Verifying your face...</span>
+            </div>
+          }
+        }
+      </div>
+      }
+
+      <!-- Google Sign In Button -->
+      @if (googleLoading) {
+        <div class="flex items-center justify-center gap-2 w-full py-3 bg-white border border-[#d1d9e0] rounded-xl text-[14px] text-[#374151] mb-5">
+          <svg class="animate-spin w-5 h-5 text-[#38a9f3]" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Signing in with Google...
+        </div>
+      }
+      <div class="flex justify-center mb-5 min-h-[44px]" [class.hidden]="googleLoading" #googleBtnRef></div>
+
+      <!-- Register Link -->
+      <p class="text-center text-[14px] text-[#536471] mt-6">
+        Don't have an account?
+        <a routerLink="/register" class="text-[#38a9f3] font-semibold hover:underline">Create one</a>
+      </p>
+    </div>
+  </div>
+</div>
