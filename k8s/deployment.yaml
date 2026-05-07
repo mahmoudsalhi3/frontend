@@ -32,3 +32,10 @@ spec:
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 10
+        - name: nginx-exporter
+          image: nginx/nginx-prometheus-exporter:1.3.0
+          args:
+            - --nginx.scrape-uri=http://localhost/nginx_status
+          ports:
+            - name: metrics
+              containerPort: 9113
